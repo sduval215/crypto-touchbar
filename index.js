@@ -1,12 +1,13 @@
 const { app, BrowserWindow, TouchBar, nativeImage } = require('electron');
-const { TouchBarLabel, TouchBarButton, TouchBarSpacer } = TouchBar;
+const { TouchBarButton } = TouchBar;
 
-const axios = require('axios');
+const { getCurrencyData } = require('./helpers/http');
 
 let window;
 
 app.once('ready', async () => {
   
+  // TODO: Make this prettier
   window = new BrowserWindow({
     frame: false,
     titleBarStyle: 'hiddenInset',
@@ -15,34 +16,27 @@ app.once('ready', async () => {
     backgroundColor: '#000'
   })
 
-  axios.get('https://api.coinbase.com/v2/prices/spot?currency=USD')
-    .then(({ data }) => {
-      const responseData = data.data;
-      console.log(responseData);
-      const touchBarObject = new TouchBarButton({
-        label: `${responseData.base} ${responseData.amount} ${responseData.currency}`,
-        backgroundColor: '#F18F19',
-        icon: nativeImage.createFromPath('./imgs/bitcoin-logo.png').resize({
-          width: 13,
-          height: 16
-        }),
-        iconPosition: 'left',
-        click: () => {
-          return null;
-        }
-      })
-      
-      const touchBar = new TouchBar({
-        items: [
-          touchBarObject
-        ]
-      });
-    
-      window.loadURL('about:blank')
-      window.setTouchBar(touchBar);
-    })
-    .catch(error => {
-      console.log('error: ', error);
-    })
-})
+  const request = await getCurrencyData('https://api.coinbase.com/v2/prices/spot?currency=USD');
 
+  const { base, currency, amount } = request.data;
+
+  const touchBarObject = new TouchBarButton({
+    label: `${base} ${amount} ${currency}`,
+    backgroundColor: '#F18F19',
+    icon: nativeImage.createFromPath('./imgs/bitcoin-logo.png').resize({
+      width: 13,
+      height: 16
+    }),
+    iconPosition: 'left',
+    click: () => null
+  })
+  
+  const touchBar = new TouchBar({
+    items: [
+      touchBarObject
+    ]
+  });
+
+  window.loadURL('about:blank')
+  window.setTouchBar(touchBar);
+});
