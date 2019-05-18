@@ -1,0 +1,14 @@
+{
+  "name": "crypto-touchbar",
+  "version": "1.0.0",
+  "description": "crypto touchbar",
+  "main": "index.js",
+  "author": "Steven Duval Ruilova",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "async": "^2.6.2",
+    "axios": "^0.18.0",
+    "electron": "^5.0.1"
+  }
+}
