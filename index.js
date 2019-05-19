@@ -49,9 +49,6 @@ app.once('ready', async () => {
   window.setTouchBar(touchBar);
   // set initial currency data
   updateCurrencyData(touchBarObject);
-
-  console.log(__dirname);
-
   // once initially set, call interval every 3 minutes (180000 milliseconds)
   setInterval(() => updateCurrencyData(touchBarObject), 180000);
 });
