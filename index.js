@@ -20,12 +20,14 @@ app.once('ready', async () => {
   let window;
   // set window variable to new BrowserWindow class
   window = new BrowserWindow({
-    frame: false,
-    titleBarStyle: 'hiddenInset',
-    width: 5,
-    height: 5,
-    backgroundColor: '#000'
-  })
+    width: 400,
+    height: 400,
+    backgroundColor: '#FFF',
+    fullscreen: false,
+    resizable: false,
+    title: 'Crypto Touchbar',
+  });
+
   // set touchBarObject to new TouchBarButton class
   const touchBarObject = new TouchBarButton({
     label: `Loading...`,
@@ -41,11 +43,14 @@ app.once('ready', async () => {
   const touchBar = new TouchBar({
     items: [ touchBarObject ]
   });
+  // load index.html
+  window.loadFile(__dirname + '/gui/index.html');
   // call window object methods with necessary information/variables
-  window.loadURL('about:blank')
   window.setTouchBar(touchBar);
   // set initial currency data
   updateCurrencyData(touchBarObject);
+
+  console.log(__dirname);
 
   // once initially set, call interval every 3 minutes (180000 milliseconds)
   setInterval(() => updateCurrencyData(touchBarObject), 180000);
