@@ -1,6 +1,8 @@
 const { TouchBar, nativeImage } = require('electron');
 const { TouchBarButton, TouchBarSpacer } = TouchBar;
 
+const axios = require('axios');
+
 /**
  * Handles icon setting through electron nativeImage object
  * @param {string} label - image label to refer to
@@ -10,36 +12,6 @@ const { TouchBarButton, TouchBarSpacer } = TouchBar;
 const getIcon = (label = 'bitcoin', height = 16, width = 14) => {
    return nativeImage.createFromPath(`./imgs/${label}-logo.png`).resize({height, width});
 };
-
-const spacer = new TouchBarSpacer({ size: 'small '});
-
-const baseTouchBar = {
-  iconPosition: 'left',
-  click: () => null
-}
-
-let touchBarArray = [
-  new TouchBarButton({
-    label: 'Loading...',
-    backgroundColor: '#F18F19',
-    icon: getIcon('bitcoin', 16, 13),
-    ...baseTouchBar
-  }),
-  spacer, // spacer element
-  new TouchBarButton({
-    label: 'Loading...',
-    backgroundColor: '#4C60B3',
-    icon: getIcon('ethereum', 18, 12),
-    ...baseTouchBar
-  }),
-  spacer, // spacer element
-  new TouchBarButton({
-    label: 'Loading..',
-    backgroundColor: '#87898A',
-    icon: getIcon('litecoin', 14, 12),
-    ...baseTouchBar
-  }),
-]
 
 /**
  * Returns currency symbol based on background color hex string argument
@@ -64,6 +36,44 @@ const getSymbolFromColor = (backgroundColor) => {
   return currencySymbol; //return evaluated currency symbol
 }
 
+/**
+ * Manually updates the currency price based on TouchBar Object passed in
+ * @param {Touchbar Object} object - TouchBar object to evaluate necessary _backgroundColor
+ */
+const manuallyUpdateCurrency = async (object) => {
+  let { _backgroundColor } = object;
+  let currencySymbol = getSymbolFromColor(_backgroundColor);
+  const { data } = await axios(`https://api.coinbase.com/v2/prices/${currencySymbol}-USD/spot`);
+  object.label = "$" + data.data.amount; // update touchbar array object label with fetched amount
+}
+
+const spacer = new TouchBarSpacer({ size: 'small '});
+
+let touchBarArray = [
+  new TouchBarButton({
+    label: 'Loading...',
+    backgroundColor: '#F18F19',
+    icon: getIcon('bitcoin', 16, 13),
+    click: () => manuallyUpdateCurrency(touchBarArray[0]),
+    iconPosition: 'left',
+  }),
+  spacer, // spacer element
+  new TouchBarButton({
+    label: 'Loading...',
+    backgroundColor: '#4C60B3',
+    icon: getIcon('ethereum', 18, 12),
+    click: () => manuallyUpdateCurrency(touchBarArray[2]),
+    iconPosition: 'left',
+  }),
+  spacer, // spacer element
+  new TouchBarButton({
+    label: 'Loading..',
+    backgroundColor: '#87898A',
+    icon: getIcon('litecoin', 14, 12),
+    click: () => manuallyUpdateCurrency(touchBarArray[4]),
+    iconPosition: 'left',
+  }),
+]
 
 module.exports = {
   touchBarArray,
