@@ -1,20 +1,7 @@
 const { app, BrowserWindow, TouchBar } = require('electron');
 
-const { getCurrencyData } = require('./helpers/http');
-const { touchBarArray, getSymbolFromColor } = require('./helpers/touchbar');
-
-/**
- * Fetches coinbase currency data and updates object argument label
- */
-updateCurrencyData = async () => {
-  touchBarArray.forEach(async ({_label, _backgroundColor}, index) => {
-    if(_label) {
-      let currencySymbol = getSymbolFromColor(_backgroundColor); // get currency symbol
-      const { data } = await getCurrencyData(`https://api.coinbase.com/v2/prices/${currencySymbol}-USD/spot`); // make request using currency symbol
-      touchBarArray[index].label = "$" + data.amount; // update touchbar array object label with fetched amount
-    }
-  })
-}
+const { touchBarArray } = require('./helpers/touchbar');
+const { updateCurrencyData } = require('./helpers/http');
 
 let windowOptions = {
   width: 400,
