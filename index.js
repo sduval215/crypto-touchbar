@@ -3,6 +3,7 @@ const { app, BrowserWindow, TouchBar } = require('electron');
 const { touchBarArray } = require('./helpers/touchbar');
 const { updateCurrencyData } = require('./helpers/http');
 
+// set window options
 let windowOptions = {
   width: 400,
   height: 400,
@@ -11,6 +12,9 @@ let windowOptions = {
   resizable: false,
   title: 'Crypto Touchbar',
 };
+
+// set app icon
+app.dock.setIcon(__dirname + '/imgs/app-logo.icns');
 
 app.once('ready', async () => {
   // set window variable to new BrowserWindow class
