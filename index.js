@@ -11,6 +11,7 @@ let windowOptions = {
   fullscreen: false,
   resizable: false,
   title: 'Crypto Touchbar',
+  icon: __dirname + '/imgs/app-logo-icns'
 };
 
 // set app icon
