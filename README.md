@@ -14,14 +14,25 @@ A minor experiment into cryptocurrency price tracking and displaying on macOS to
 
 - [NodeJS](https://nodejs.org/en/)
 - [Electron](https://electronjs.org/)
+- [Electron Packager](https://github.com/electron/electron-packager)
 - [Yarn](https://yarnpkg.com/en/)
 
 ### Steps
 
 1.  Run `git clone https://github.com/sduval215/crypto-touchbar.git`.
 1.  Navigate inside the downloaded directory and run `yarn install` to install all necessary dependency packages.
-1.  Within the root folder run `./node_modules/.bin/electron index.js`
+1.  Within the root folder run `yarn start`
 
 ### Simulator
 
 If you don't have a touch bar on your machine, you can download the MacOS touchbar simulator [here](https://github.com/sindresorhus/touch-bar-simulator)
+
+### Distribute
+
+All application building is handled by the `electron-builder` library. Make sure you have `electron-builder` installed globally. If you don't, run:
+
+```
+npm install -g electron-builder
+```
+
+Afterwards, run `yarn dist` in the root project folder to build the application.
