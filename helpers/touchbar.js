@@ -10,7 +10,7 @@ const axios = require('axios');
  * @param {number} width - width of icon (px)
  */
 const getIcon = (label = 'bitcoin', height = 16, width = 14) => {
-   return nativeImage.createFromPath(`./imgs/${label}-logo.png`).resize({height, width});
+   return nativeImage.createFromPath(__dirname + `/imgs/${label}-logo.png`).resize({height, width});
 };
 
 /**

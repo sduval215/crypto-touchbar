@@ -11,11 +11,11 @@ let windowOptions = {
   fullscreen: false,
   resizable: false,
   title: 'Crypto Touchbar',
-  icon: __dirname + '/imgs/app-logo-icns'
+  icon: __dirname + '/icon/app-logo-icns'
 };
 
 // set app icon
-app.dock.setIcon(__dirname + '/imgs/app-logo.icns');
+app.dock.setIcon(__dirname + '/icon/app-logo.icns');
 
 app.once('ready', async () => {
   // set window variable to new BrowserWindow class
