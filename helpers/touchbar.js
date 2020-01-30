@@ -44,7 +44,7 @@ const manuallyUpdateCurrency = async (object) => {
   let { _backgroundColor } = object;
   let currencySymbol = getSymbolFromColor(_backgroundColor);
   const { data } = await axios(`https://api.coinbase.com/v2/prices/${currencySymbol}-USD/spot`);
-  object.label = "$" + data.data.amount; // update touchbar array object label with fetched amount
+  object.label = "$" + parseFloat(data.data.amount).toFixed(2); // update touchbar array object label with fetched amount
 }
 
 const spacer = new TouchBarSpacer({ size: 'small '});

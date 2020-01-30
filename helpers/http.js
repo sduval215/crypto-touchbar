@@ -9,7 +9,7 @@ const updateCurrencyData = async () => {
     if(_label) {
       let currencySymbol = getSymbolFromColor(_backgroundColor); // get currency symbol
       const { data } = await axios(`https://api.coinbase.com/v2/prices/${currencySymbol}-USD/spot`); // make request using currency symbol
-      touchBarArray[index].label = "$" + data.data.amount; // update touchbar array object label with fetched amount
+      touchBarArray[index].label = "$" + parseFloat(data.data.amount).toFixed(2); // update touchbar array object label with fetched amount
     }
   })
 };
